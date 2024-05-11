@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\FixtureRepository;
 use App\Services\GameGenerator;
 use App\Models\Game;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class GameController extends Controller
@@ -36,4 +37,25 @@ class GameController extends Controller
 
         return redirect()->route('games.index');
     }
+
+    public function update(Game $game, Request $request)
+    {
+        if (!$game->played) {
+            return redirect()->route('games.index');
+        }
+
+        if ($request->side == 'home') {
+            $game->update([
+                'home_team_score' => $request->score
+            ]);
+        }
+
+        if ($request->side == 'away') {
+            $game->update([
+                'away_team_score' => $request->score
+            ]);
+        }
+
+    }
+
 }

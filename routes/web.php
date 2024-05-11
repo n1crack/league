@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 // Fixture routes
 Route::get('/', [GameController::class, 'index'])->name('games.index');
 Route::post('/games', [GameController::class, 'store'])->name('games.store');
+Route::post('/games/{game}', [GameController::class, 'update'])->name('games.update');
 // Simulation routes
 Route::get('/simulation', [SimulationController::class, 'create'])->name('simulation.create');
 

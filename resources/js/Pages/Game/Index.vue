@@ -1,14 +1,27 @@
 <script setup>
-import {Head} from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
 import AppLayout from "@/Layouts/AppLayout.vue";
 import AppName from "@/Components/AppName.vue";
 import LinkButton from "@/Components/LinkButton.vue";
 import Navbar from "@/Components/Navbar.vue";
+import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
+import TextInput from "@/Components/TextInput.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 defineProps({
     games: [Array, Object],
     lastPlayedWeek: Number
 });
+
+
+const handleScoreUpdate = (gameId, score, side) => {
+    const form = useForm({
+        score,
+        side
+    });
+
+    form.post(route('games.update', {game: gameId}));
+};
 
 </script>
 
@@ -38,9 +51,29 @@ defineProps({
                             {{ weekNo }}. Week
                         </div>
                         <div v-for="game in weekGames" :key="game.id" class="grid grid-cols-11 justify-center mb-2">
-                            <div class="col-span-5 text-right">{{ game.home_team.name }} <span v-if="game.played" class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-700 text-sm">{{ game.home_team_score }}</span></div>
+                            <div class="col-span-5 flex justify-end gap-2">{{ game.home_team.name }}
+                                  <Popover v-slot="{ open }" class="relative " v-if="game.played" >
+                                    <PopoverButton class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-700 text-sm ring-0 shadow-0 outline-0 w-8 h-6" :class="{'dark:bg-neutral-400': open}">
+                                        {{ game.home_team_score }}
+                                    </PopoverButton>
+
+                                    <PopoverPanel class="absolute z-10 border dark:border-neutral-500 bg-neutral-200 dark:bg-neutral-700 rounded p-3 text-left">
+                                        <TextInput type="number" v-model="game.home_team_score" @blur="handleScoreUpdate(game.id, game.home_team_score, 'home')" class="w-20" />
+                                    </PopoverPanel>
+                                  </Popover>
+                            </div>
                             <div class="col-span-1 text-center"> - </div>
-                            <div class="col-span-5"><span v-if="game.played" class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-700 text-sm">{{ game.away_team_score }}</span> {{ game.away_team.name }}</div>
+                            <div class="col-span-5 flex justify-start space-x-2 gap-2">
+                                  <Popover v-slot="{ open }" class="relative " v-if="game.played">
+                                    <PopoverButton class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-700 text-sm ring-0 shadow-0 outline-0 w-8 h-6" :class="{'dark:bg-neutral-400': open}">
+                                        {{ game.away_team_score }}
+                                    </PopoverButton>
+
+                                    <PopoverPanel class="absolute z-10 border dark:border-neutral-500 bg-neutral-200 dark:bg-neutral-700 rounded p-3 text-left">
+                                        <TextInput type="number" v-model="game.away_team_score" @blur="handleScoreUpdate(game.id, game.away_team_score, 'away')" class="w-20" />
+                                    </PopoverPanel>
+                                  </Popover>
+                                {{ game.away_team.name }}</div>
                         </div>
                         </div>
 
