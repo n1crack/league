@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateGames;
 use App\Models\Game;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class GameController extends Controller
 
     public function store()
     {
+        GenerateGames::dispatch();
 
         return redirect()->route('games.index');
     }
