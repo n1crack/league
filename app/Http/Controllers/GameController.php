@@ -14,19 +14,10 @@ class GameController extends Controller
     {
         $games = Game::with('homeTeam', 'awayTeam')->get();
 
-         return Inertia::render('Game/Index', [
+        return Inertia::render('Game/Index', [
             'games' => $games->groupBy('week')
         ]);
-
     }
-
-    public function create()
-    {
-        return Inertia::render('Game/Create', [
-            'teams' => Team::all()
-        ]);
-    }
-
 
     public function store()
     {

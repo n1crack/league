@@ -6,9 +6,9 @@ import NavLink from "@/Components/NavLink.vue";
 
 <template>
 
-        <NavLink :href="route('games.create')" class="text-blue-500">Teams</NavLink>
-        <NavLink :href="route('games.index')" class="text-blue-500">Fixture</NavLink>
-        <NavLink :href="route('simulation.create')" class="text-blue-500">Simulation</NavLink>
+    <NavLink :href="route('games.index')" :active="route().current('games.index*')">Fixture</NavLink>
+    <NavLink :href="route('team.index')" :active="route().current('team.index*')">Teams</NavLink>
+    <NavLink :href="route('simulation.create')" :active="route().current('simulation.create*')">Simulation</NavLink>
 
 </template>
 

@@ -3,7 +3,7 @@ import {Link} from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Link class="inline-flex items-center px-4 py-2  border border-transparent rounded-md font-semibold text-xs text-gray-300 hover:text-white uppercase tracking-widest focus:outline-none  disabled:opacity-50 transition ease-in-out duration-150">
+    <Link class="inline-flex items-center px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-500 rounded-md font-semibold text-xs text-neutral-700 dark:text-neutral-300 uppercase tracking-widest shadow-sm hover:bg-neutral-50 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-800 disabled:opacity-25 transition ease-in-out duration-150">
         <slot />
     </Link>
 </template>

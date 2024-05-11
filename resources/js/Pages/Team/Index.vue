@@ -6,6 +6,7 @@ import AppName from "@/Components/AppName.vue";
 import LinkButton from "@/Components/LinkButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Navbar from "@/Components/Navbar.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 defineProps({
     teams: Array,
@@ -24,7 +25,7 @@ const deleteUser = (id) => {
 };
 
 const createFixture = () => {
-    form.post(route('games.create'));
+    form.post(route('games.store'));
 };
 
 </script>
@@ -40,7 +41,7 @@ const createFixture = () => {
             <Navbar />
             <div>
                 <div class="pt-3 sm:pt-5">
-                    <h2 class="text-xl font-semibold text-black dark:text-white">Create Fixture</h2>
+                    <h2 class="text-xl font-semibold text-black dark:text-white">Teams</h2>
 
                     <div class="mt-3">
                         <table class="min-w-full divide-y divide-gray-300 dark:divide-stone-600">
@@ -75,7 +76,7 @@ const createFixture = () => {
                     </div>
 
                     <p class="mt-4 text-sm/relaxed text-center">
-                        <PrimaryButton @click="createFixture">Create Fixture</PrimaryButton>
+                        <SecondaryButton @click="createFixture">Create Fixture</SecondaryButton>
                     </p>
                 </div>
             </div>

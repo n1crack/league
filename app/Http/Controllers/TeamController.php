@@ -8,6 +8,12 @@ use Inertia\Inertia;
 
 class TeamController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Team/Index', [
+            'teams' => Team::all()
+        ]);
+    }
 
     public function create()
     {
