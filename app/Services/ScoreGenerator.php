@@ -28,7 +28,7 @@ class ScoreGenerator
 
     private function generate(): Fluent
     {
-        $diffPower = $this->homeTeam->team_power - $this->awayTeam->team_power;
+        $diffPower = ($this->homeTeam->team_power - $this->awayTeam->team_power) * .5;
 
         // calculate the score
         return new Fluent([
@@ -41,7 +41,7 @@ class ScoreGenerator
     {
         // avarage number of goals scored by the team is the team_power divided by 4
         // if the difference in team_power is greater, than the stronger team will score more goals
-        $lambda = ($team_power + $diffPower) / 4;
+        $lambda = ($team_power + $diffPower) / 3.6;
         $goals = [];
         $probabilities = [];
 

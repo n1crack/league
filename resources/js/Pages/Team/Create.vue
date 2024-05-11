@@ -59,7 +59,7 @@ const submit = () => {
                                 class="mt-1 block w-full"
                                 required
                                 min="1"
-                                max="120"
+                                max="10"
                                 autofocus
                                 autocomplete="team_power"
                             />

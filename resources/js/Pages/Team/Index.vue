@@ -44,21 +44,28 @@ const createFixture = () => {
 
                     <div class="mt-3">
                         <table class="min-w-full divide-y divide-gray-300 dark:divide-stone-600">
-                          <thead class="bg-gray-50 dark:bg-stone-900">
+                            <thead class="bg-gray-50 dark:bg-stone-900">
                             <tr>
-                              <th scope="col" colspan="2" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
-                                 <div class="flex items-center justify-between">
-                                      Team Name
-
-                                     <LinkButton :href="route('team.create')" class="text-blue-500">Create Team</LinkButton>
-                                 </div>
-                              </th>
+                                <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
+                                    Team Name
+                                </th>
+                                <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
+                                    Team Power
+                                </th>
+                                <th class="">
+                                    <div>
+                                        <LinkButton :href="route('team.create')" class="whitespace-nowrap">Create Team </LinkButton>
+                                    </div>
+                                </th>
                             </tr>
                           </thead>
                           <tbody class="divide-y divide-gray-200 dark:divide-stone-600 bg-white dark:bg-stone-800">
                             <tr v-for="team in teams" :key="teams.id">
                               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   {{ team.name }}
+                              </td>
+                              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
+                                  {{ team.team_power }}
                               </td>
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   <DangerButton type="button" @click="deleteUser(team.id)" >Delete</DangerButton>
