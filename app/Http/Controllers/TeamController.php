@@ -24,7 +24,7 @@ class TeamController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'strength' => 'required|integer',
+            'team_power' => 'required|integer',
         ]);
 
         $team = Team::query()->create($validated);

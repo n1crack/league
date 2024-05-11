@@ -11,7 +11,7 @@ import Navbar from "@/Components/Navbar.vue";
 const form = useForm(
     {
         name: null,
-        strength: null,
+        team_power: null,
     }
 );
 
@@ -51,19 +51,19 @@ const submit = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="strength" value="Strength"/>
+                            <InputLabel for="team_power" value="Team Power"/>
                             <TextInput
-                                id="strength"
-                                v-model="form.strength"
+                                id="team_power"
+                                v-model="form.team_power"
                                 type="number"
                                 class="mt-1 block w-full"
                                 required
                                 min="1"
-                                max="10"
+                                max="120"
                                 autofocus
-                                autocomplete="strength"
+                                autocomplete="team_power"
                             />
-                            <InputError class="mt-2" :message="form.errors.strength"/>
+                            <InputError class="mt-2" :message="form.errors.team_power"/>
                         </div>
 
                         <div class="flex items-center  mt-4">

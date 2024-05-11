@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\FixtureRepository;
-use App\Services\GameGenerator;
 use App\Models\Game;
+use App\Services\GameGenerator;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -43,7 +42,7 @@ class GameController extends Controller
         if (!$game->played) {
             return redirect()->route('games.index');
         }
-        
+
         $request->validate([
             'side' => 'required|in:home,away',
             'score' => 'required|integer|min:0|max:20'

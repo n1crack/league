@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('strength')->comment('The strength of the team, used to calculate the outcome of a match.');
+            $table->integer('team_power')->comment('The team power of the team, used to calculate the outcome of a match.');
             $table->timestamps();
         });
     }
