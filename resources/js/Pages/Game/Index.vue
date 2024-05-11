@@ -6,15 +6,30 @@ import LinkButton from "@/Components/LinkButton.vue";
 import Navbar from "@/Components/Navbar.vue";
 import {Popover, PopoverButton, PopoverPanel} from "@headlessui/vue";
 import TextInput from "@/Components/TextInput.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 defineProps({
     games: [Array, Object],
     lastPlayedWeek: Number
 });
 
+// Limit the score input to 0-20
+const handleScoreInput = (e, game, key) => {
+    if (e.target.value < 0) {
+        e.target.value = 0;
+        return;
+    }
+    if (e.target.value > 20) {
+        e.target.value = 20;
+    }
 
+    game[key] = e.target.value;
+};
+const handleScoreChange = (e, game, key) => {
+    game[key] = e.target.value === '' ? 0 : e.target.value;
+};
+// Update the score
 const handleScoreUpdate = (gameId, score, side) => {
+
     const form = useForm({
         score,
         side
@@ -57,8 +72,12 @@ const handleScoreUpdate = (gameId, score, side) => {
                                         {{ game.home_team_score }}
                                     </PopoverButton>
 
-                                    <PopoverPanel class="absolute z-10 border dark:border-neutral-500 bg-neutral-200 dark:bg-neutral-700 rounded p-3 text-left">
-                                        <TextInput type="number" v-model="game.home_team_score" @blur="handleScoreUpdate(game.id, game.home_team_score, 'home')" class="w-20" />
+                                    <PopoverPanel  class="absolute z-10 border dark:border-neutral-500 bg-neutral-200 dark:bg-neutral-700 rounded p-3 text-left">
+                                        <TextInput autofocus @keydown.enter="open = false" type="number"
+                                                   :value="game.home_team_score"
+                                                   @change="e => handleScoreChange(e, game, 'home_team_score')"
+                                                   @input="(e) => handleScoreInput(e, game, 'home_team_score')"
+                                                   @blur="handleScoreUpdate(game.id, game.home_team_score, 'home')"  class="w-20" />
                                     </PopoverPanel>
                                   </Popover>
                             </div>
@@ -70,7 +89,11 @@ const handleScoreUpdate = (gameId, score, side) => {
                                     </PopoverButton>
 
                                     <PopoverPanel class="absolute z-10 border dark:border-neutral-500 bg-neutral-200 dark:bg-neutral-700 rounded p-3 text-left">
-                                        <TextInput type="number" v-model="game.away_team_score" @blur="handleScoreUpdate(game.id, game.away_team_score, 'away')" class="w-20" />
+                                        <TextInput autofocus @keydown.enter="open = false" type="number"
+                                                   :value="game.away_team_score"
+                                                   @change="e => handleScoreChange(e, game, 'away_team_score')"
+                                                   @input="(e) => handleScoreInput(e, game, 'away_team_score')"
+                                                   @blur="handleScoreUpdate(game.id, game.away_team_score, 'away')" class="w-20" />
                                     </PopoverPanel>
                                   </Popover>
                                 {{ game.away_team.name }}</div>
