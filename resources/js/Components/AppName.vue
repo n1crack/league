@@ -17,7 +17,11 @@
             <path d="M12 5l0 14"/>
         </svg>
     </div>
+    <div>
     <h2 class="text-stone-700 dark:text-stone-200 text-3xl">The League Simulation</h2>
+    <div class="text-stone-700 dark:text-stone-200">Yet another fun project</div>
+
+    </div>
 </div>
 </template>
 

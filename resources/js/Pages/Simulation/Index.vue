@@ -41,7 +41,7 @@ const form = useForm({
             <div>
 
                 <div class="pt-3 sm:pt-5">
-                    <div class="mt-3">
+                    <div class="mt-3 overflow-auto">
                         <table class="min-w-full divide-y divide-gray-300 dark:divide-stone-600">
                           <thead class="bg-gray-50 dark:bg-stone-900">
                             <tr>
@@ -148,7 +148,7 @@ const form = useForm({
                         </div>
                     </div>
 
-                    <p class="mt-4 text-sm/relaxed text-center space-x-6">
+                    <p class="mt-4 text-sm/relaxed justify-center space-y-3 md:space-x-6 md:space-y-0 flex flex-col md:flex-row items-center">
                         <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playAllWeeks">Play All</SecondaryButton>
                         <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playNextWeek" >Play Next</SecondaryButton>
                         <SecondaryButton @click.prevent="resetTheGame">Reset Data</SecondaryButton>
