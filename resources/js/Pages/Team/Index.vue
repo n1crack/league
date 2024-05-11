@@ -73,9 +73,13 @@ const createFixture = () => {
                         </div>
                     </div>
 
-                    <p class="mt-4 text-sm/relaxed text-center">
+                    <div class="mt-4 text-sm/relaxed text-center space-y-3">
+                        <div>
+                            You can create a fixture once you have added teams.
+                            This will regenerate the fixture for the teams.
+                        </div>
                         <SecondaryButton @click="createFixture">Create Fixture</SecondaryButton>
-                    </p>
+                    </div>
                 </div>
             </div>
 

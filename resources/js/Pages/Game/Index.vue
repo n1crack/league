@@ -44,7 +44,7 @@ defineProps({
                         </div>
                         </div>
 
-                        <div class="mb-3" v-if="Number(weekNo) === lastPlayedWeek ">
+                        <div class="mb-3" v-if="Number(weekNo) === lastPlayedWeek && lastPlayedWeek !== Object.values(games).length">
                             <div class="flex justify-center">
                                 <div>Upcoming Matches</div>
                             </div>
