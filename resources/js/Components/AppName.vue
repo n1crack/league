@@ -4,7 +4,7 @@
 
 <template>
 
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center text-red-800 dark:text-stone-200">
     <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
@@ -18,8 +18,8 @@
         </svg>
     </div>
     <div>
-    <h2 class="text-stone-700 dark:text-stone-200 text-3xl">The League Simulation</h2>
-    <div class="text-stone-700 dark:text-stone-200">Yet another fun project</div>
+    <h2 class="text-red-800 dark:text-stone-200 text-3xl">The League Simulation</h2>
+    <div class="text-red-800 dark:text-stone-200">Yet another fun project</div>
 
     </div>
 </div>

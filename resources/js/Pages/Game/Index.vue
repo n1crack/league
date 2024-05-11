@@ -62,7 +62,7 @@ const handleScoreUpdate = (gameId, score, side) => {
                     <div v-for="(weekGames, weekNo) in games" :key="weekNo">
                         <div class="border dark:border-gray-500 mb-3 rounded-lg">
 
-                        <div class="flex justify-center text-red-400 text-lg">
+                        <div class="flex justify-center text-neutral-700 dark:text-white text-lg">
                             {{ weekNo }}. Week
                         </div>
                         <div v-for="game in weekGames" :key="game.id" class="grid grid-cols-11 justify-center mb-2">
