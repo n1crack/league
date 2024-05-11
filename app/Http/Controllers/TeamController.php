@@ -30,7 +30,7 @@ class TeamController extends Controller
         $team = Team::query()->create($validated);
 
         // return for Inertia
-         return to_route('home');
+         return to_route('team.index');
     }
 
     public function destroy(Team $team)
@@ -38,6 +38,6 @@ class TeamController extends Controller
         $team->delete();
 
         // return for Inertia
-        return to_route('home');
+        return to_route('team.index');
     }
 }
