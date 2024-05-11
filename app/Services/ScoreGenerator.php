@@ -39,8 +39,9 @@ class ScoreGenerator
 
     private function simulateGoals($strength, $diffStrength): float|int
     {
+        // avarage number of goals scored by the team is the strength divided by 4
         // if the difference in strength is greater, than the stronger team will score more goals
-        $lambda = ($strength + $diffStrength) / 4; // ortalam gol sayısı (max 2.5 min 0.25)
+        $lambda = ($strength + $diffStrength) / 4;
         $goals = [];
         $probabilities = [];
 
