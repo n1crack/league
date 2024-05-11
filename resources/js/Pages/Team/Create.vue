@@ -8,8 +8,6 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import Navbar from "@/Components/Navbar.vue";
 
-defineProps({});
-
 const form = useForm(
     {
         name: null,
