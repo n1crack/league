@@ -28,16 +28,19 @@ class ScoreGenerator
 
     private function generate(): Fluent
     {
+        $diffStrength = $this->homeTeam->strength - $this->awayTeam->strength;
+
         // calculate the score
         return new Fluent([
-            'home_team_score' => $this->simulateGoals($this->homeTeam->strength),
-            'away_team_score' => $this->simulateGoals($this->awayTeam->strength),
+            'home_team_score' => $this->simulateGoals($this->homeTeam->strength, $diffStrength),
+            'away_team_score' => $this->simulateGoals($this->awayTeam->strength, -$diffStrength),
         ]);
     }
 
-    private function simulateGoals($strength): float|int
+    private function simulateGoals($strength, $diffStrength): float|int
     {
-        $lambda = $strength / 4; // ortalam gol sayısı (max 2.5 min 0.25)
+        // if the difference in strength is greater, than the stronger team will score more goals
+        $lambda = ($strength + $diffStrength) / 4; // ortalam gol sayısı (max 2.5 min 0.25)
         $goals = [];
         $probabilities = [];
 
