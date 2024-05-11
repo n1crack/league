@@ -24,12 +24,14 @@ const handleScoreInput = (e, game, key) => {
 
     game[key] = e.target.value;
 };
+
+// if the input is empty, set the score to 0
 const handleScoreChange = (e, game, key) => {
     game[key] = e.target.value === '' ? 0 : e.target.value;
 };
+
 // Update the score
 const handleScoreUpdate = (gameId, score, side) => {
-
     const form = useForm({
         score,
         side

@@ -43,6 +43,12 @@ class GameController extends Controller
         if (!$game->played) {
             return redirect()->route('games.index');
         }
+        
+        $request->validate([
+            'side' => 'required|in:home,away',
+            'score' => 'required|integer|min:0|max:20'
+        ]);
+
 
         if ($request->side == 'home') {
             $game->update([
@@ -55,7 +61,6 @@ class GameController extends Controller
                 'away_team_score' => $request->score
             ]);
         }
-
     }
 
 }
