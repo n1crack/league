@@ -1,16 +1,27 @@
 <script setup>
 import {Head, Link, useForm} from '@inertiajs/vue3';
 import AppLayout from "@/Layouts/AppLayout.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppName from "@/Components/AppName.vue";
-import LinkButton from "@/Components/LinkButton.vue";
-import DangerButton from "@/Components/DangerButton.vue";
 import Navbar from "@/Components/Navbar.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 defineProps({
     teams: Array,
+    games: Object,
+    lastPlayedWeek: Number,
 });
+
+const playNextWeek = () => {
+    form.post(route('play-the-game'));
+};
+
+const playAllWeeks = () => {
+    form.post(route('play-the-game', {play_all: true}));
+};
+
+const resetTheGame = () => {
+    form.post(route('reset-the-game', {play_all: true}));
+};
 
 const form = useForm({
 
@@ -20,7 +31,7 @@ const form = useForm({
 
 <template>
     <AppLayout>
-        <Head title="Create Fixture"/>
+        <Head title="Simulation"/>
 
         <AppName/>
         <div
@@ -36,6 +47,9 @@ const form = useForm({
                             <tr>
                               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
                                   Team
+                              </th>
+                              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
+                                  PTS
                               </th>
                               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900  dark:text-neutral-200 sm:pl-6">
                                   P
@@ -59,20 +73,24 @@ const form = useForm({
                               <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   {{ team.name }}
                               </td>
+
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  1
+                                    {{ team.games_wins * 3 + team.games_drawn }}
                               </td>
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  2
+                                  {{ team.games_played}}
                               </td>
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  3
+                                  {{ team.games_wins }}
                               </td>
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  4
+                                  {{ team.games_drawn}}
                               </td>
                               <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  5
+                                  {{ team.games_losses }}
+                              </td>
+                              <td class="w-24 whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
+                                  {{ team.goal_difference }}
                               </td>
                             </tr>
                           </tbody>
@@ -85,27 +103,23 @@ const form = useForm({
                     </div>
                     <div class="mt-4 grid md:grid-cols-2 gap-3">
                         <div class="p-3 border dark:border-neutral-600 rounded">
-                            <div class="bg-gray-50 dark:bg-stone-900 text-sm">
-                                <div
-                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                    1. Week
-                                </div>
-                                <div class="grid grid-cols-11 justify-center py-2 bg-white dark:bg-stone-800">
-                                    <div class="col-span-5 text-right">Home Team</div>
-                                    <div class="col-span-1 text-center"> - </div>
-                                    <div class="col-span-5">Away Team</div>
-                                </div>
-                                <div class="grid grid-cols-11 justify-center py-2 bg-white dark:bg-stone-800">
-                                    <div class="col-span-5 text-right">Home Team</div>
-                                    <div class="col-span-1 text-center"> - </div>
-                                    <div class="col-span-5">Away Team</div>
-                                </div>
+                             <div v-if="lastPlayedWeek">
+                                 <div class="bg-gray-50 dark:bg-stone-900 text-sm">
 
-                                <!--                                <div v-for="game in weekGames" :key="game.id" class="grid grid-cols-11 justify-center mb-2">-->
-<!--                                    <div class="col-span-5 text-right">{{ game.home_team.name }}</div>-->
-<!--                                    <div class="col-span-1 text-center"> - </div>-->
-<!--                                    <div class="col-span-5">{{ game.away_team.name }}</div>-->
-<!--                                </div>-->
+                                     <div
+                                         class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-neutral-200 sm:pl-6">
+                                         {{ lastPlayedWeek }}. Week
+                                     </div>
+                                     <div v-for="game in games[lastPlayedWeek]" :key="game.id"  class="grid grid-cols-11 justify-center py-2 bg-white dark:bg-stone-800">
+                                         <div class="col-span-5 text-right">{{ game.home_team.name }} <span class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-900">{{ game.home_team_score }}</span></div>
+                                         <div class="col-span-1 text-center">-</div>
+                                         <div class="col-span-5"><span class="px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-900">{{ game.away_team_score }}</span> {{ game.away_team.name }}</div>
+                                     </div>
+                                 </div>
+                             </div>
+
+                            <div class="text-center" v-else>
+                                No games played yet
                             </div>
                         </div>
                         <div class="p-3 border dark:border-neutral-600 rounded">
@@ -135,9 +149,9 @@ const form = useForm({
                     </div>
 
                     <p class="mt-4 text-sm/relaxed text-center space-x-6">
-                        <SecondaryButton>Play All</SecondaryButton>
-                        <SecondaryButton>Play Next</SecondaryButton>
-                        <SecondaryButton>Reset Data</SecondaryButton>
+                        <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playAllWeeks">Play All</SecondaryButton>
+                        <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playNextWeek" >Play Next</SecondaryButton>
+                        <SecondaryButton @click.prevent="resetTheGame">Reset Data</SecondaryButton>
                     </p>
                 </div>
             </div>

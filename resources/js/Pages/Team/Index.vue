@@ -1,7 +1,6 @@
 <script setup>
-import {Head, Link, useForm} from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
 import AppLayout from "@/Layouts/AppLayout.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppName from "@/Components/AppName.vue";
 import LinkButton from "@/Components/LinkButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
@@ -32,7 +31,7 @@ const createFixture = () => {
 
 <template>
     <AppLayout>
-        <Head title="Create Fixture"/>
+        <Head title="Teams"/>
 
         <AppName/>
         <div
@@ -51,8 +50,7 @@ const createFixture = () => {
                                  <div class="flex items-center justify-between">
                                       Team Name
 
-                                     <LinkButton :href="route('team.create')" class="text-blue-500">Create New</LinkButton>
-
+                                     <LinkButton :href="route('team.create')" class="text-blue-500">Create Team</LinkButton>
                                  </div>
                               </th>
                             </tr>

@@ -1,28 +1,14 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Services;
 
-use App\Models\Game;
 use App\Models\Team;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class GenerateGames //implements ShouldQueue
+class GameGenerator
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * @return void
-     */
-    public function handle(): void
+    public static function generate(): array
     {
         $teamsCollection = Team::all()->pluck('id');
-
-        // Truncate the games table
-        Game::query()->truncate();
 
         // If the total number of teams is odd, add a dummy team to make it even
         if ($teamsCollection->count() % 2 !== 0) {
@@ -63,6 +49,6 @@ class GenerateGames //implements ShouldQueue
             $teamsCollection->splice(1, 0, $teamsCollection->pop());
         }
 
-        Game::query()->insert(array_merge($fixtures, $fixturesAway));
+        return array_merge($fixtures, $fixturesAway);
     }
 }

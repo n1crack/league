@@ -14,13 +14,13 @@ defineProps({
             <img id="background" class="fixed -left-20 top-0 max-w-[877px] "
                  src="https://laravel.com/assets/img/welcome/background.svg"/>
             <div
-                class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+                class="relative min-h-screen flex flex-col items-center pt-16 md:pt-32 selection:bg-[#FF2D20] selection:text-white">
                 <div class="relative w-full max-w-3xl px-6 lg:max-w-7xl">
                     <main class="mt-6">
+
                         <slot/>
 
                     </main>
-
                 </div>
             </div>
         </div>
