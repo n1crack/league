@@ -1,0 +1,91 @@
+{
+  "_LinkButton-Cf1aQ9DL.js": {
+    "file": "assets/LinkButton-Cf1aQ9DL.js",
+    "name": "LinkButton",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_Navbar-C86szrJB.js": {
+    "file": "assets/Navbar-C86szrJB.js",
+    "name": "Navbar",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_SecondaryButton-g8CJy_Mm.js": {
+    "file": "assets/SecondaryButton-g8CJy_Mm.js",
+    "name": "SecondaryButton",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "_TextInput-Dy-qrIOu.js": {
+    "file": "assets/TextInput-Dy-qrIOu.js",
+    "name": "TextInput",
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/Pages/Game/Index.vue": {
+    "file": "assets/Index-Dc2rDOAR.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Game/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Navbar-C86szrJB.js",
+      "_LinkButton-Cf1aQ9DL.js",
+      "_TextInput-Dy-qrIOu.js"
+    ]
+  },
+  "resources/js/Pages/Simulation/Index.vue": {
+    "file": "assets/Index-CnI3qCvX.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Simulation/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Navbar-C86szrJB.js",
+      "_SecondaryButton-g8CJy_Mm.js"
+    ]
+  },
+  "resources/js/Pages/Team/Create.vue": {
+    "file": "assets/Create-CYpGiZrc.js",
+    "name": "Create",
+    "src": "resources/js/Pages/Team/Create.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Navbar-C86szrJB.js",
+      "_TextInput-Dy-qrIOu.js"
+    ]
+  },
+  "resources/js/Pages/Team/Index.vue": {
+    "file": "assets/Index-89TtE27x.js",
+    "name": "Index",
+    "src": "resources/js/Pages/Team/Index.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_Navbar-C86szrJB.js",
+      "_LinkButton-Cf1aQ9DL.js",
+      "_SecondaryButton-g8CJy_Mm.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CVK0Qreg.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Game/Index.vue",
+      "resources/js/Pages/Simulation/Index.vue",
+      "resources/js/Pages/Team/Create.vue",
+      "resources/js/Pages/Team/Index.vue"
+    ],
+    "css": [
+      "assets/app-DWUtQmbb.css"
+    ]
+  }
+}
