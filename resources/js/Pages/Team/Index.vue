@@ -85,7 +85,7 @@ const createFixture = () => {
                             You can create a fixture once you have added teams.
                             This will regenerate the fixture for the teams.
                         </div>
-                        <SecondaryButton @click="createFixture">Create Fixture</SecondaryButton>
+                        <SecondaryButton v-if="teams.length" @click="createFixture">Create Fixture</SecondaryButton>
                     </div>
                 </div>
             </div>

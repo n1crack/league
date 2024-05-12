@@ -36,7 +36,7 @@ const submit = () => {
                 <p class="mt-4 text-sm/relaxed">
 
                     <form @submit.prevent="submit">
-                        <div>
+                        <div class="mb-4">
                             <InputLabel for="name" value="Name"/>
                             <TextInput
                                 id="name"
@@ -50,8 +50,8 @@ const submit = () => {
                             <InputError class="mt-2" :message="form.errors.name"/>
                         </div>
 
-                        <div>
-                            <InputLabel for="team_power" value="Team Power"/>
+                        <div class="mb-4">
+                            <InputLabel for="team_power" value="Team Power (range: 1:weak - 10:strong)"/>
                             <TextInput
                                 id="team_power"
                                 v-model="form.team_power"
