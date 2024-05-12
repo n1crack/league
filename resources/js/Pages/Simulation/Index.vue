@@ -5,11 +5,16 @@ import AppName from "@/Components/AppName.vue";
 import Navbar from "@/Components/Navbar.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
-defineProps({
+const props = defineProps({
     teams: Array,
     games: Object,
     lastPlayedWeek: Number,
+    predictions: Object
 });
+
+const getTeamPrediction = (id) => {
+    return props.predictions[id] ?? 0;
+};
 
 const playNextWeek = () => {
     form.post(route('play-the-game'));
@@ -139,7 +144,7 @@ const form = useForm({
                                           {{ team.name }}
                                       </td>
                                       <td class="w-24 whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                          1
+                                          {{ getTeamPrediction(team.id)}}
                                       </td>
                                     </tr>
                                   </tbody>
