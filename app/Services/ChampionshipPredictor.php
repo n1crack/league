@@ -8,8 +8,11 @@ class ChampionshipPredictor
 {
     public static function predict(Collection $pts, $weeks_left): Collection
     {
-
         // if the championship is over or there are more than 3 weeks left, return empty
+        if ($weeks_left == 0 || $weeks_left >= 4
+        ) {
+            return collect();
+        }
 
         // max point, it can be the championship point. we don't know that yet.
         $max = $pts->max();
