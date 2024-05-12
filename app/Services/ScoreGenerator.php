@@ -28,12 +28,14 @@ class ScoreGenerator
 
     private function generate(): Fluent
     {
-        $diffPower = ($this->homeTeam->team_power - $this->awayTeam->team_power);
+        $diffPower = ($this->homeTeam->team_power - $this->awayTeam->team_power) / 2;
+        $homeFactor = 1.2;
+        $awayFactor = 0.8;
 
         // calculate the score
         return new Fluent([
-            'home_team_score' => $this->simulateGoals($this->homeTeam->team_power, $diffPower),
-            'away_team_score' => $this->simulateGoals($this->awayTeam->team_power, -$diffPower),
+            'home_team_score' => $this->simulateGoals($this->homeTeam->team_power * $homeFactor, $diffPower),
+            'away_team_score' => $this->simulateGoals($this->awayTeam->team_power * $awayFactor, -$diffPower),
         ]);
     }
 
