@@ -53,5 +53,7 @@ class PlayGameController
             'away_team_score' => 0,
             'played' => false,
         ]);
+
+        return redirect()->route('simulation.create');
     }
 }

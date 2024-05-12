@@ -17,15 +17,15 @@ const getTeamPrediction = (id) => {
 };
 
 const playNextWeek = () => {
-    form.post(route('play-the-game'));
+    form.post(route('play-the-game'), {preserveScroll: true});
 };
 
 const playAllWeeks = () => {
-    form.post(route('play-the-game', {play_all: true}));
+    form.post(route('play-the-game', {play_all: true}), {preserveScroll: true});
 };
 
 const resetTheGame = () => {
-    form.post(route('reset-the-game', {play_all: true}));
+    form.post(route('reset-the-game' ),{preserveScroll: true});
 };
 
 const form = useForm({
@@ -154,7 +154,7 @@ const form = useForm({
 
                     <p class="mt-4 text-sm/relaxed justify-center space-y-3 md:space-x-6 md:space-y-0 flex flex-col md:flex-row items-center">
                         <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playAllWeeks">Play All</SecondaryButton>
-                        <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playNextWeek" >Play Next</SecondaryButton>
+                        <SecondaryButton :disabled="lastPlayedWeek === Object.keys(games).length" @click.prevent="playNextWeek">Play Next</SecondaryButton>
                         <SecondaryButton @click.prevent="resetTheGame">Reset Data</SecondaryButton>
                     </p>
                 </div>
