@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->unsignedSmallInteger('away_team_score')->nullable();
             $table->unsignedSmallInteger('week');
 
-            $table->boolean('is_drawn')->virtualAs("home_team_score = away_team_score")->nullable();
+            $table->boolean('is_draws')->virtualAs("home_team_score = away_team_score")->nullable();
             $table->unsignedBigInteger('winner_id')
                 ->virtualAs("CASE WHEN home_team_score > away_team_score THEN home_team_id WHEN home_team_score < away_team_score THEN away_team_id ELSE null END")
                 ->virtualAs($this->createVirtualColumnQuery('home_team_id', 'away_team_id'))

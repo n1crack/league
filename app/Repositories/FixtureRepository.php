@@ -14,13 +14,14 @@ class FixtureRepository
     {
         return Team::query()
             ->select('teams.*')
+            ->selectSub(self::getPts(), 'games_pts')
             ->selectSub(self::getPlayed(), 'games_played')
             ->selectSub(self::getWins(), 'games_wins')
-            ->selectSub(self::getDrawn(), 'games_drawn')
+            ->selectSub(self::getDraws(), 'games_draws')
             ->selectSub(self::getLosses(), 'games_losses')
             ->selectSub(self::getGoalDifferences(), 'goal_difference')
-            ->orderBy('games_wins', 'desc')
-            ->orderBy('games_drawn', 'desc')
+            ->orderBy('games_pts', 'desc')
+            ->orderBy('goal_difference', 'desc')
             ->get();
     }
 
@@ -49,12 +50,12 @@ class FixtureRepository
     /**
      * @return Builder
      */
-    private static function getDrawn(): Builder
+    private static function getDraws(): Builder
     {
          return Game::query()
             ->selectRaw('count(*)')
             ->whereAny(['home_team_id', 'away_team_id'], DB::raw('teams.id'))
-            ->where('is_drawn', true)
+            ->where('is_draws', true)
             ->where('played', true);
     }
 
@@ -80,5 +81,18 @@ class FixtureRepository
                 ELSE 0 END)'
             )
             ->where('played', true);
+    }
+
+    private static function getPts(): Builder
+    {
+        return Game::query()
+            ->selectRaw(
+                'SUM(CASE
+                WHEN played = true AND home_team_id = teams.id AND winner_id = teams.id THEN 3
+                WHEN played = true AND away_team_id = teams.id AND winner_id = teams.id THEN 3
+                WHEN played = true AND home_team_id = teams.id AND is_draws = true THEN 1
+                WHEN played = true AND away_team_id = teams.id AND is_draws = true THEN 1
+                ELSE 0 END)'
+            );
     }
 }

@@ -28,7 +28,7 @@ class ScoreGenerator
 
     private function generate(): Fluent
     {
-        $diffPower = ($this->homeTeam->team_power - $this->awayTeam->team_power) * .5;
+        $diffPower = ($this->homeTeam->team_power - $this->awayTeam->team_power);
 
         // calculate the score
         return new Fluent([
@@ -41,12 +41,12 @@ class ScoreGenerator
     {
         // avarage number of goals scored by the team is the team_power divided by 4
         // if the difference in team_power is greater, than the stronger team will score more goals
-        $lambda = ($team_power + $diffPower) / 3.6;
+        $lambda = ($team_power + $diffPower) / 4;
         $goals = [];
         $probabilities = [];
 
         // create a cumulative probability distribution
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $goals[] = self::poisson($lambda, $i);
             $probabilities[$i] = ($probabilities[$i - 1] ?? 0) + $goals[$i] ?? 0;
         }

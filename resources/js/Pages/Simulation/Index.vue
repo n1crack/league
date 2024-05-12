@@ -73,9 +73,8 @@ const form = useForm({
                               <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   {{ team.name }}
                               </td>
-
                               <td class="w-24 whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                    {{ team.games_wins * 3 + team.games_drawn }}
+                                  {{ team.games_pts }}
                               </td>
                               <td class="w-24 whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   {{ team.games_played}}
@@ -84,7 +83,7 @@ const form = useForm({
                                   {{ team.games_wins }}
                               </td>
                               <td class="w-24 whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
-                                  {{ team.games_drawn}}
+                                  {{ team.games_draws}}
                               </td>
                               <td class="w-24 whitespace-nowrap py-2 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-neutral-200 sm:pl-6">
                                   {{ team.games_losses }}
