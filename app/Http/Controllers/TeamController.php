@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,17 +21,12 @@ class TeamController extends Controller
         return Inertia::render('Team/Create');
     }
 
-    public function store(Request $request)
+    public function store(CreateTeamRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'team_power' => 'required|integer',
-        ]);
-
-        $team = Team::query()->create($validated);
+        Team::query()->create($request->validated());
 
         // return for Inertia
-         return to_route('team.index');
+        return to_route('team.index');
     }
 
     public function destroy(Team $team)

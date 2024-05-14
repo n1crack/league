@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateScoreRequest;
 use App\Models\Game;
 use App\Models\Team;
 use App\Services\GameGenerator;
@@ -18,7 +19,6 @@ class GameController extends Controller
 
         $lastPlayedWeek = $games->where('played', true)->max('week');
 
-
         return Inertia::render('Game/Index', [
             'games' => $games->groupBy('week'),
             'lastPlayedWeek' => $lastPlayedWeek
@@ -30,28 +30,17 @@ class GameController extends Controller
         // Truncate the games table
         Game::query()->truncate();
 
-        $teamsCollection = Team::all()->pluck('id');
-        $gameGenerator = new GameGenerator($teamsCollection);
         // Generate new games
-        $games = $gameGenerator->generate();
+        $gameGenerator = new GameGenerator(Team::query()->pluck('id'));
 
         // Insert the games into the database
-        Game::query()->insert($games);
+        Game::query()->insert($gameGenerator->generate());
 
         return redirect()->route('games.index');
     }
 
-    public function update(Game $game, Request $request)
+    public function update(Game $game, UpdateScoreRequest $request)
     {
-        if (!$game->played) {
-            return redirect()->route('games.index');
-        }
-
-        $request->validate([
-            'side' => 'required|in:home,away',
-            'score' => 'required|integer|min:0|max:20'
-        ]);
-
         if ($request->side == 'home') {
             $game->update([
                 'home_team_score' => $request->score

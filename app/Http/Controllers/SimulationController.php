@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use App\Repositories\FixtureRepository;
+use App\Builders\FixtureBuilder;
 use App\Services\ChampionshipPredictor;
 use Inertia\Inertia;
 
@@ -18,22 +18,32 @@ class SimulationController extends Controller
 
         $lastPlayedWeek = $games->where('played', true)->max('week');
 
-        $teams = FixtureRepository::get();
+        $fixture = $this->buildFixture();
 
-        $pts = $teams->pluck('games_pts', 'id');
-        $totalMatches = $teams->count() * ($teams->count() - 1) / 2;
-        $weeks_played = $teams->max('games_played');
-        $weeks_left = $totalMatches - $weeks_played;
-
-        $predictor = new ChampionshipPredictor($pts, $weeks_left);
-        $predictions = $predictor->predict();
+        $predictions = $this->predictOutcomes($fixture);
 
         return Inertia::render('Simulation/Index', [
-            'teams' => $teams,
+            'teams' => $fixture,
             'games' => $games->groupBy('week'),
             'lastPlayedWeek' => $lastPlayedWeek,
             'predictions' => $predictions
         ]);
     }
 
+    private function buildFixture()
+    {
+        return (new FixtureBuilder())->build();
+    }
+
+    private function predictOutcomes($fixture)
+    {
+        $points = $fixture->pluck('games_pts', 'id');
+        $totalMatches = $fixture->count() * ($fixture->count() - 1) / 2;
+        $weeksPlayed = $fixture->max('games_played');
+        $weeksLeft = $totalMatches - $weeksPlayed;
+
+        $predictor = new ChampionshipPredictor($points, $weeksLeft);
+
+        return $predictor->predict();
+    }
 }

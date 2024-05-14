@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Builders;
 
 use App\Models\Game;
 use App\Models\Team;
@@ -8,27 +8,42 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class FixtureRepository
+class FixtureBuilder
 {
-    public static function get(): Collection|array
+    private Builder $query;
+
+    /**
+     * FixtureBuilder constructor.
+     */
+    public function __construct()
     {
-        return Team::query()
+        $this->query = Team::query();
+    }
+
+    /**
+     * Build the fixture
+     * @return Collection|array
+     */
+    public function build(): Collection|array
+    {
+        return $this->query
             ->select('teams.*')
-            ->selectSub(self::getPts(), 'games_pts')
-            ->selectSub(self::getPlayed(), 'games_played')
-            ->selectSub(self::getWins(), 'games_wins')
-            ->selectSub(self::getDraws(), 'games_draws')
-            ->selectSub(self::getLosses(), 'games_losses')
-            ->selectSub(self::getGoalDifferences(), 'goal_difference')
+            ->selectSub($this->getPts(), 'games_pts')
+            ->selectSub($this->getPlayed(), 'games_played')
+            ->selectSub($this->getWins(), 'games_wins')
+            ->selectSub($this->getDraws(), 'games_draws')
+            ->selectSub($this->getLosses(), 'games_losses')
+            ->selectSub($this->getGoalDifferences(), 'goal_difference')
             ->orderBy('games_pts', 'desc')
             ->orderBy('goal_difference', 'desc')
             ->get();
     }
 
     /**
+     *  Get the played games count for the teams
      * @return Builder
      */
-    private static function getPlayed(): Builder
+    private function getPlayed(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -37,9 +52,10 @@ class FixtureRepository
     }
 
     /**
+     *  Get the wins count for the teams
      * @return Builder
      */
-    private static function getWins(): Builder
+    private function getWins(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -48,22 +64,23 @@ class FixtureRepository
     }
 
     /**
+     *  Get the draws count for the teams
      * @return Builder
      */
-    private static function getDraws(): Builder
+    private function getDraws(): Builder
     {
-         return Game::query()
+        return Game::query()
             ->selectRaw('count(*)')
             ->whereAny(['home_team_id', 'away_team_id'], DB::raw('teams.id'))
             ->where('is_draws', true)
             ->where('played', true);
     }
 
-
     /**
+     *  Get the losses count for the teams
      * @return Builder
      */
-    private static function getLosses(): Builder
+    private function getLosses(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -71,7 +88,11 @@ class FixtureRepository
             ->where('played', true);
     }
 
-    private static function getGoalDifferences(): Builder
+    /**
+     *  Get the goal differences for the teams
+     * @return Builder
+     */
+    private function getGoalDifferences(): Builder
     {
         return Game::query()
             ->selectRaw(
@@ -83,7 +104,11 @@ class FixtureRepository
             ->where('played', true);
     }
 
-    private static function getPts(): Builder
+    /**
+     * Get the total points for the teams
+     * @return Builder
+     */
+    private function getPts(): Builder
     {
         return Game::query()
             ->selectRaw(

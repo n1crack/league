@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlayGameRequest;
 use App\Models\Game;
 use App\Services\ScoreGenerator;
 use Illuminate\Http\Request;
 
 class PlayGameController
 {
-    public function store(Request $request)
+    public function store(PlayGameRequest $request)
     {
-        $request->validate([
-            'play_all' => 'nullable|boolean',
-        ]);
-
-        // Find the latest played week
+        // to find the latest played week, create a query builder instance
         $nextWeekToPlay = Game::query()
             ->with('homeTeam', 'awayTeam')
             ->where('played', false)
@@ -23,22 +20,17 @@ class PlayGameController
         // Get the games for the latest played week
         $games = Game::query()
             ->where('played', false)
-            ->when(!$request->play_all, function($query) use ($nextWeekToPlay) {
-                return $query->where('week', $nextWeekToPlay);
-            })
+            ->when(!$request->play_all, fn($query) => $query->where('week', $nextWeekToPlay))
             ->get();
 
         // Loop through the games and predict the scores
         foreach ($games as $game) {
             $scoreGenerator = new ScoreGenerator($game->homeTeam, $game->awayTeam);
 
-            $homeTeamScore = $scoreGenerator->getHomeTeamScore();
-            $awayTeamScore = $scoreGenerator->getAwayTeamScore();
-
             // Update the game with the predicted scores
             $game->update([
-                'home_team_score' => $homeTeamScore,
-                'away_team_score' => $awayTeamScore,
+                'home_team_score' => $scoreGenerator->getHomeTeamScore(),
+                'away_team_score' => $scoreGenerator->getAwayTeamScore(),
                 'played' => true,
             ]);
         }
