@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class FixtureBuilder
 {
-    private Builder $query;
+    public Builder $query;
 
     /**
      * FixtureBuilder constructor.
@@ -28,7 +28,7 @@ class FixtureBuilder
     {
         return $this->query
             ->select('teams.*')
-            ->selectSub($this->getPts(), 'games_pts')
+            ->selectSub($this->getPoints(), 'games_pts')
             ->selectSub($this->getPlayed(), 'games_played')
             ->selectSub($this->getWins(), 'games_wins')
             ->selectSub($this->getDraws(), 'games_draws')
@@ -43,7 +43,7 @@ class FixtureBuilder
      *  Get the played games count for the teams
      * @return Builder
      */
-    private function getPlayed(): Builder
+    public function getPlayed(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -55,7 +55,7 @@ class FixtureBuilder
      *  Get the wins count for the teams
      * @return Builder
      */
-    private function getWins(): Builder
+    public function getWins(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -67,7 +67,7 @@ class FixtureBuilder
      *  Get the draws count for the teams
      * @return Builder
      */
-    private function getDraws(): Builder
+    public function getDraws(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -80,7 +80,7 @@ class FixtureBuilder
      *  Get the losses count for the teams
      * @return Builder
      */
-    private function getLosses(): Builder
+    public function getLosses(): Builder
     {
         return Game::query()
             ->selectRaw('count(*)')
@@ -92,7 +92,7 @@ class FixtureBuilder
      *  Get the goal differences for the teams
      * @return Builder
      */
-    private function getGoalDifferences(): Builder
+    public function getGoalDifferences(): Builder
     {
         return Game::query()
             ->selectRaw(
@@ -108,7 +108,7 @@ class FixtureBuilder
      * Get the total points for the teams
      * @return Builder
      */
-    private function getPts(): Builder
+    public function getPoints(): Builder
     {
         return Game::query()
             ->selectRaw(
