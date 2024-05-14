@@ -2,21 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Team;
+use Illuminate\Support\Collection;
 
 class GameGenerator
 {
-    public static function generate(): array
+    public function __construct(protected Collection $teamsCollection)
     {
-        $teamsCollection = Team::all()->pluck('id');
+    }
 
+    public function generate(): array
+    {
         // If the total number of teams is odd, add a dummy team to make it even
-        if ($teamsCollection->count() % 2 !== 0) {
-            $teamsCollection->push('dummy_team');
+        if ($this->teamsCollection->count() % 2 !== 0) {
+            $this->teamsCollection->push('dummy_team');
         }
 
         // Total number of teams
-        $totalTeams = $teamsCollection->count();
+        $totalTeams = $this->teamsCollection->count();
 
         // Total number of rounds (weeks)
         $totalRounds = $totalTeams - 1;
@@ -29,24 +31,24 @@ class GameGenerator
         for ($i = 0; $i < $totalRounds; $i++) {
             for ($j = 0; $j < $totalTeams / 2; $j++) {
                 // If there's a dummy team, skip it
-                if ($teamsCollection[$j] === 'dummy_team' || $teamsCollection[$totalTeams - 1 - $j] === 'dummy_team') {
+                if ($this->teamsCollection[$j] === 'dummy_team' || $this->teamsCollection[$totalTeams - 1 - $j] === 'dummy_team') {
                     continue;
                 }
 
                 $fixtures[] = [
-                    'home_team_id' => $teamsCollection[$j],
-                    'away_team_id' => $teamsCollection[$totalTeams - 1 - $j],
+                    'home_team_id' => $this->teamsCollection[$j],
+                    'away_team_id' => $this->teamsCollection[$totalTeams - 1 - $j],
                     'week' => $i + 1,
                 ];
 
                 $fixturesAway[] = [
-                    'home_team_id' => $teamsCollection[$totalTeams - 1 - $j],
-                    'away_team_id' => $teamsCollection[$j],
+                    'home_team_id' => $this->teamsCollection[$totalTeams - 1 - $j],
+                    'away_team_id' => $this->teamsCollection[$j],
                     'week' => $totalRounds + $i + 1,
                 ];
             }
 
-            $teamsCollection->splice(1, 0, $teamsCollection->pop());
+            $this->teamsCollection->splice(1, 0, $this->teamsCollection->pop());
         }
 
         return array_merge($fixtures, $fixturesAway);

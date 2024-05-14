@@ -25,7 +25,8 @@ class SimulationController extends Controller
         $weeks_played = $teams->max('games_played');
         $weeks_left = $totalMatches - $weeks_played;
 
-        $predictions = ChampionshipPredictor::predict($pts, $weeks_left);
+        $predictor = new ChampionshipPredictor($pts, $weeks_left);
+        $predictions = $predictor->predict();
 
         return Inertia::render('Simulation/Index', [
             'teams' => $teams,

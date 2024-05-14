@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Team;
 use App\Services\GameGenerator;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ class GameController extends Controller
         $games = Game::query()
             ->with('homeTeam', 'awayTeam')
             ->get();
+
         $lastPlayedWeek = $games->where('played', true)->max('week');
 
 
@@ -28,8 +30,10 @@ class GameController extends Controller
         // Truncate the games table
         Game::query()->truncate();
 
+        $teamsCollection = Team::all()->pluck('id');
+        $gameGenerator = new GameGenerator($teamsCollection);
         // Generate new games
-        $games = GameGenerator::generate();
+        $games = $gameGenerator->generate();
 
         // Insert the games into the database
         Game::query()->insert($games);
@@ -47,7 +51,6 @@ class GameController extends Controller
             'side' => 'required|in:home,away',
             'score' => 'required|integer|min:0|max:20'
         ]);
-
 
         if ($request->side == 'home') {
             $game->update([

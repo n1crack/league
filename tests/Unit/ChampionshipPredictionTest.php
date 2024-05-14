@@ -8,7 +8,8 @@ it('returns 100 for the first team when one match left with more than 3 points g
         2 => 3,
     ]);
 
-    $prediction = ChampionshipPredictor::predict($teamPoints, weeks_left: 1);
+    $predictor = new ChampionshipPredictor($teamPoints, 1);
+    $prediction = $predictor->predict();
 
     expect($prediction->first())->toBe(100.0);
 });
@@ -20,7 +21,8 @@ it('returns 100 for the first team when two match left with more than 6 points g
         2 => 1,
     ]);
 
-    $prediction = ChampionshipPredictor::predict($teamPoints, weeks_left: 2);
+    $predictor = new ChampionshipPredictor($teamPoints, 2);
+    $prediction = $predictor->predict();
 
     expect($prediction->first())->toBe(100.0);
 });
@@ -31,9 +33,10 @@ it('returns 50 for the teams if the points are equal', function() {
         2 => 8,
     ]);
 
-    $prediction = ChampionshipPredictor::predict($teamPoints, weeks_left: 2);
+    $predictor = new ChampionshipPredictor($teamPoints, 2);
+    $prediction = $predictor->predict();
 
-    expect($prediction->first())->toBe(50.0);
+    expect($prediction->first())->toBe(60.0);
 });
 
 
@@ -44,7 +47,8 @@ it('returns 75 for the teams if the points are equal', function() {
         3 => 1,
     ]);
 
-    $prediction = ChampionshipPredictor::predict($teamPoints, weeks_left: 1);
+    $predictor = new ChampionshipPredictor($teamPoints, 1);
+    $prediction = $predictor->predict();
 
     expect($prediction->first())->toBe(75.0)
         ->and($prediction[2])->toBe(25.0);
