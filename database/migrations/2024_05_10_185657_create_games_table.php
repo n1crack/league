@@ -21,11 +21,9 @@ return new class extends Migration {
 
             $table->boolean('is_draws')->virtualAs("home_team_score = away_team_score")->nullable();
             $table->unsignedBigInteger('winner_id')
-                ->virtualAs("CASE WHEN home_team_score > away_team_score THEN home_team_id WHEN home_team_score < away_team_score THEN away_team_id ELSE null END")
                 ->virtualAs($this->createVirtualColumnQuery('home_team_id', 'away_team_id'))
                 ->nullable();
             $table->unsignedBigInteger('loser_id')
-                ->virtualAs("CASE WHEN home_team_score > away_team_score THEN away_team_id WHEN home_team_score < away_team_score THEN home_team_id ELSE null END")
                 ->virtualAs($this->createVirtualColumnQuery('away_team_id', 'home_team_id'))
                 ->nullable();
             $table->smallInteger('winner_score')
